@@ -7,7 +7,6 @@ import Image from "next/image"
 export default function CoursivQuizStep11() {
   const router = useRouter()
 
-  // Lista de opções para a pergunta atual, agora com subtítulos
   const knowledgeLevels = [
     { emoji: "😎", title: "Expert", subtitle: "I have extensive knowledge" },
     { emoji: "😌", title: "Proficient", subtitle: "I am skilled" },
@@ -16,7 +15,6 @@ export default function CoursivQuizStep11() {
   ]
 
   const handleSelection = (answer: string) => {
-    // Navega para o próximo passo, passando a resposta como parâmetro de URL
     router.push(`/step12?knowledge=${encodeURIComponent(answer)}`)
   }
 
@@ -43,7 +41,7 @@ export default function CoursivQuizStep11() {
             style={{ width: "40%" }} // 8 de 20 é 40%
           ></div>
         </div>
-      </header
+      </header> {/* <--- CORREÇÃO APLICADA AQUI */}
 
       {/* Conteúdo do Quiz */}
       <main className="flex flex-col items-center justify-center py-12 px-4">
