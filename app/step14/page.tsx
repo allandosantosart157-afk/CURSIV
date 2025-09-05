@@ -1,87 +1,72 @@
-"use client" // Necessário para usar hooks
+"use client"
 
 import { ArrowLeft } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep14() {
+export default function CoursivQuizStep14() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para lidar com a seleção e passar TODOS os parâmetros adiante
-  const handleSelection = (tradingTopic: string) => {
-    const params = new URLSearchParams(searchParams)
-    params.set("trading_topic", tradingTopic) // Adiciona a resposta desta página
-    router.push(`/step15?${params.toString()}`) // Navega para a próxima com a URL completa
+  // Lista de opções para a pergunta sobre o medo de ser substituído por IA
+  const fearOptions = [
+    { emoji: "😬", text: "Yes, all the time" },
+    { emoji: "😥", text: "Yes, sometimes" },
+    { emoji: "😉", text: "No, because I know how to use it" },
+    { emoji: "😕", text: "I never thought about it" },
+  ]
+
+  const handleSelection = (answer: string) => {
+    // Navega para o próximo passo, passando a resposta como parâmetro de URL
+    router.push(`/step15?afraidOfReplacement=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4">
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <button onClick={() => router.back()} aria-label="Voltar">
-            <ArrowLeft className="w-6 h-6 text-white" />
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
           </button>
-
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-
-          <div className="text-white text-sm">13/18</div>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">11/20</div>
         </div>
-
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-400 h-1" style={{ width: "72.22%" }}></div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "55%" }} // 11 de 20 é 55%
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex items-center justify-center px-4 max-w-4xl mx-auto min-h-[80vh]">
-        <div className="w-full max-w-2xl">
-          {/* Question */}
-          <div className="text-center mb-12">
-            <h1 className="text-white text-4xl font-bold mb-4 text-balance">
-              Which trading topic interests you the most?
-            </h1>
-          </div>
+      {/* Conteúdo do Quiz */}
+      <main className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-black mb-10">
+            Are you afraid to be replaced by AI?
+          </h1>
 
-          {/* Options - <Link> substituído por onClick */}
-          <div className="w-full max-w-2xl space-y-4">
-            <button
-              onClick={() => handleSelection("Right time to sell and buy")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">⏰</span>
-              <span className="text-lg">Right time to sell and buy</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("Different asset types")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">🔍</span>
-              <span className="text-lg">Different asset types</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("Risks and rewards")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">⚖️</span>
-              <span className="text-lg">Risks and rewards</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("I'm not sure yet")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">🤔</span>
-              <span className="text-lg">I'm not sure yet</span>
-            </button>
+          {/* Opções de Resposta */}
+          <div className="space-y-4">
+            {fearOptions.map((option) => (
+              <button
+                key={option.text}
+                onClick={() => handleSelection(option.text)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors flex items-center text-left gap-4"
+              >
+                <span className="text-2xl">{option.emoji}</span>
+                <span>{option.text}</span>
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

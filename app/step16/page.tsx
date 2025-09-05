@@ -1,109 +1,82 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation" // Adicionado useSearchParams
 import { ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 
-export default function FineloQuizStep16() {
+export default function CoursivQuizStep16() {
   const router = useRouter()
-  const searchParams = useSearchParams() // Adicionado para ler parâmetros existentes
-  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([])
 
-  const companies = [
-    { name: "Netflix", image: "/stocks/netflix.webp" },
-    { name: "Tesla", image: "/stocks/tesla.webp" },
-    { name: "Apple", image: "/stocks/apple.webp" },
-    { name: "Amazon", image: "/stocks/amazon.webp" },
-    { name: "McDonalds", image: "/stocks/mac.webp" },
-    { name: "Shell", image: "/stocks/shell.webp" },
-    { name: "Exxon", image: "/stocks/exxon.webp" },
-    { name: "Microsoft", image: "/stocks/microsoft.webp" },
-    { name: "Google", image: "/stocks/google.webp" },
-    { name: "Pfizer", image: "/stocks/pfizer.webp" },
+  // Lista de opções de resposta
+  const incomeLevels = [
+    "$50,000 - $100,000",
+    "$100,000 - $300,000",
+    "More than $300,000",
   ]
 
-  const toggleCompany = (company: string) => {
-    setSelectedCompanies((prev) => (prev.includes(company) ? prev.filter((c) => c !== company) : [...prev, company]))
-  }
-
-  // Função handleNext ajustada para passar os parâmetros
-  const handleNext = () => {
-    const params = new URLSearchParams(searchParams)
-    // Converte o array de empresas em uma string separada por vírgulas
-    params.set("interested_companies", selectedCompanies.join(","))
-    router.push(`/step17?${params.toString()}`)
-  }
-
-  // A função handleBack agora usa router.back() para simplicidade
-  const handleBack = () => {
-    router.back()
+  const handleSelection = (answer: string) => {
+    // Navega para o próximo passo, passando a resposta como parâmetro de URL
+    router.push(`/step17?incomeGoal=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-4">
-      {/* Header */}
-      <header className="flex items-center justify-between">
-        <button onClick={handleBack} className="text-white hover:text-green-400 transition-colors">
-          <ArrowLeft size={24} />
-        </button>
-
-        <div className="text-green-400 text-xl font-bold">
-          <span className="text-green-400">F</span>inelo
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">12/20</div>
         </div>
-
-        <div className="text-white text-sm">15 / 18</div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "60%" }} // 12 de 20 é 60%
+          ></div>
+        </div>
       </header>
 
-      {/* Progress Bar */}
-      <div className="w-full bg-gray-800 h-1 rounded-full my-4">
-        <div className="bg-green-400 h-1 rounded-full transition-all duration-300" style={{ width: "83.33%" }}></div>
-      </div>
+      {/* Container principal para conteúdo e imagem */}
+      <div className="relative">
+        {/* Conteúdo do Quiz */}
+        <main className="flex flex-col items-center justify-center py-12 px-4">
+          <div className="w-full max-w-md text-center">
+            <h1 className="text-3xl font-bold text-black mb-10 text-balance">
+              What annual income level do you want to achieve?
+            </h1>
 
-      {/* Content */}
-      <div className="flex flex-col items-center">
-        <div className="w-full max-w-2xl text-center mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">Which companies are you most interested in?</h1>
-          <p className="text-gray-400 text-lg">Choose all that apply</p>
-        </div>
-
-        {/* Companies Grid */}
-        <div className="w-full max-w-3xl mb-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {companies.map((company) => (
-              <button
-                key={company.name}
-                onClick={() => toggleCompany(company.name)}
-                className={`
-                  flex items-center gap-3 p-3 rounded-lg border-2 transition-all duration-200
-                  ${
-                    selectedCompanies.includes(company.name)
-                      ? "border-green-400 bg-green-400/10"
-                      : "border-gray-700 hover:border-gray-500"
-                  }
-                `}
-              >
-                <Image
-                  src={company.image}
-                  alt={`${company.name} logo`}
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-                <span className="text-white font-medium text-sm sm:text-base">{company.name}</span>
-              </button>
-            ))}
+            {/* Opções de Resposta */}
+            <div className="space-y-4">
+              {incomeLevels.map((level) => (
+                <button
+                  key={level}
+                  onClick={() => handleSelection(level)}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors"
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        </main>
 
-        {/* Next Button */}
-        <div className="w-full max-w-md">
-          <button
-            onClick={handleNext}
-            className="w-full bg-green-400 text-black font-bold py-4 px-8 rounded-lg hover:bg-green-500 transition-colors text-lg"
-          >
-            NEXT STEP
-          </button>
+        {/* Imagem Decorativa */}
+        <div className="hidden lg:block absolute top-0 right-0 pointer-events-none -z-10 h-full">
+          <Image
+            src="/CURSIV/CURSIV-STEP14/man-with-wallet.webp" // SUBSTITUA PELO CAMINHO CORRETO
+            alt="Man looking at his wallet"
+            width={450}
+            height={600}
+            className="object-contain object-right-top h-full"
+          />
         </div>
       </div>
     </div>

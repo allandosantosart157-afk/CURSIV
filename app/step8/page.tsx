@@ -1,81 +1,68 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep8() {
+export default function CoursivQuizStep8() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para lidar com a seleção e passar TODOS os parâmetros adiante
-  const handleSelection = (retirementAnswer: string) => {
-    const params = new URLSearchParams(searchParams)
-    params.set("retirement_status", retirementAnswer) // Adiciona a resposta desta página
-    router.push(`/step9?${params.toString()}`) // Navega para a próxima com a URL completa
+  const handleContinue = () => {
+    // Navega para a próxima página do quiz
+    router.push(`/step9`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header with Navigation */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4 max-w-6xl mx-auto">
-          <button
-            onClick={() => router.back()}
-            aria-label="Voltar"
-            className="text-white hover:text-green-400 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-
-          <div className="text-gray-400 text-sm">6/18</div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-400 h-1" style={{ width: "33.33%" }}></div>
+    <div className="min-h-screen bg-white text-gray-800 flex flex-col p-4">
+      {/* Header - Apenas a logo centralizada */}
+      <header className="w-full">
+        <div className="flex items-center justify-center py-4">
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={120}
+            height={40}
+          />
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto min-h-[80vh]">
-        <div className="w-full max-w-2xl">
-          <h1 className="text-white text-3xl font-bold mb-12 text-center text-balance">
-            Do you want to retire wealthy?
-          </h1>
-
-          {/* Answer Options - <Link> substituído por onClick */}
-          <div className="space-y-4">
-            <button
-              onClick={() => handleSelection("I'm already retired")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😌</span>
-              <span className="text-lg">I'm already retired</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("Yes, but I don't know how")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😵‍💫</span>
-              <span className="text-lg">Yes, but I don't know how</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("I haven't thought about retirement")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😱</span>
-              <span className="text-lg">I haven't thought about retirement</span>
-            </button>
+      {/* Conteúdo Principal Reordenado */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
+        <div className="w-full max-w-md"> {/* Container para controlar a largura */}
+          
+          {/* 1. Imagem */}
+          <div className="mb-8">
+            <Image
+              src="/CURSIV/CURSIV-STEP6/Ed1-1.webp"
+              alt="Man using a phone in a snowy mountain landscape"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-xl shadow-md"
+            />
           </div>
+
+          {/* 2. Título */}
+          <h1 className="text-3xl font-bold text-black mb-4">
+            Worry no more! We will help you to gain your confidence back
+          </h1>
+          
+          {/* 3. Texto */}
+          <p className="text-gray-600 text-base leading-relaxed">
+            We helped more than 700,000 of adults to master AI and can help you too. Our challenge is backed by thousands hours of research and content carefully crafted to your needs and skills!
+          </p>
         </div>
-      </div>
+      </main>
+
+      {/* Botão de Continuar */}
+      <footer className="flex justify-center py-8">
+        <div className="w-full max-w-md">
+          <button
+            onClick={handleContinue}
+            className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-4 px-12 rounded-lg text-lg transition-colors"
+          >
+            CONTINUE
+          </button>
+        </div>
+      </footer>
     </div>
   )
 }

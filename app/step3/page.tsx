@@ -1,65 +1,69 @@
-"use client" // Necessário para usar hooks
+"use client"
 
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
-export default function FineloQuizStep3() {
+export default function CoursivQuizStep3() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header with Progress */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4">
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <Link href="/step2">
-            <ArrowLeft className="w-6 h-6 text-white" />
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
           </Link>
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-          <div className="text-white text-sm">1/18</div>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">1/20</div>
         </div>
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-400 h-1" style={{ width: "5.56%" }}></div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "5%" }}
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex items-center justify-between px-4 max-w-6xl mx-auto min-h-[80vh]">
-        {/* Left Side - Question */}
-        <div className="flex-1 max-w-2xl">
-          <div className="mb-8">
-            <h1 className="text-white text-4xl font-bold mb-4 text-center">What is your age?</h1>
-            <p className="text-gray-300 text-lg text-center">We will personalize your Trading Challenge based on your answers</p>
-          </div>
+      {/* Container principal para conteúdo e imagem */}
+      <div className="relative">
+        {/* Conteúdo do Quiz */}
+        <main className="flex flex-col items-center justify-center py-12 px-4">
+          <div className="w-full max-w-md text-center">
+            <h1 className="text-3xl font-bold text-black mb-2">
+              What is your age?
+            </h1>
+            <p className="text-gray-500 mb-8">
+              We will personalize your AI challenge based on your answers
+            </p>
 
-          {/* Age Options */}
-          <div className="space-y-4">
-            <Link href="/step4" className="block">
-              <button className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-lg text-left transition-colors">
-                18-24
-              </button>
-            </Link>
-            <Link href="/step4" className="block">
-              <button className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-lg text-left transition-colors">
-                25-34
-              </button>
-            </Link>
-            <Link href="/step4" className="block">
-              <button className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-lg text-left transition-colors">
-                35-44
-              </button>
-            </Link>
-            <Link href="/step4" className="block">
-              <button className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-lg text-left transition-colors">
-                45+
-              </button>
-            </Link>
+            {/* Opções de Resposta */}
+            <div className="space-y-4">
+              {["18-24", "25-34", "35-44", "45+"].map((ageRange) => (
+                <Link href="/step4" key={ageRange} className="block">
+                  <button className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors">
+                    {ageRange}
+                  </button>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        </main>
 
-        {/* Right Side - Founder Image */}
-        <div className="hidden lg:block flex-1 max-w-md mr-[-100px] mb-[-220px]">
-          <img src="/founder-with-phone.webp" alt="Founder of Finelo" className="w-full h-auto" />
+        {/* Imagem Decorativa */}
+        <div className="hidden lg:block absolute bottom-0 right-0 pointer-events-none -z-10">
+          <Image
+            src="/CURSIV/CURSIV-STEP2/1-19.webp"
+            alt="Man smiling and holding a phone"
+            width={450}
+            height={600}
+            className="object-contain"
+          />
         </div>
       </div>
     </div>

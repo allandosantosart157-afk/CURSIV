@@ -1,59 +1,63 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep15() {
+export default function CoursivQuizStep15() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para navegar para a próxima página, mantendo todos os parâmetros existentes
   const handleContinue = () => {
-    router.push(`/step16?${searchParams.toString()}`)
+    // Navega para a próxima página do quiz
+    router.push(`/step16`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <header className="bg-black">
-        <div className="flex items-center justify-center p-4">
-          <div className="text-green-400 text-2xl sm:text-3xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
+    <div className="min-h-screen bg-white text-gray-800 flex flex-col p-4">
+      {/* Header - Apenas a logo centralizada */}
+      <header className="w-full">
+        <div className="flex items-center justify-center py-4">
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={120}
+            height={40}
+          />
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center p-4">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 w-full max-w-6xl">
-          {/* Right Side - Phone Mockup (Aparece primeiro no mobile) */}
-          <div className="flex-1 max-w-md order-first lg:order-none">
-            <img
-              src="/finelo-app-explore.webp"
-              alt="Finelo App Interface"
-              className="w-full h-auto rounded-2xl"
+      {/* Conteúdo Principal Reordenado */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
+        <div className="w-full max-w-md"> {/* Container para controlar a largura */}
+          
+          {/* 1. Imagem */}
+          <div className="mb-8">
+            <Image
+              src="/CURSIV/CURSIV-STEP13/Ed2.webp"
+              alt="Man pointing at a snowy mountain peak"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-xl shadow-md"
             />
           </div>
 
-          {/* Left Side - Text Content (Centralizado no mobile) */}
-          <div className="flex-1 max-w-lg text-center lg:text-left">
-            <h1 className="text-white text-3xl lg:text-4xl font-bold mb-6 text-balance">
-              We've Got You!
-            </h1>
-            <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
-              From fundamentals to advanced strategies, we cover it all. Our step-by-step challenge adapts to your
-              skills and knowledge, helping you gain confidence and master trading in just a few weeks. Let's make your
-              trading journey simple and successful!
-            </p>
-          </div>
+          {/* 2. Título */}
+          <h1 className="text-3xl font-bold text-black mb-4">
+            There is nothing to worry about
+          </h1>
+          
+          {/* 3. Texto */}
+          <p className="text-gray-600 text-base leading-relaxed">
+            According to Harvard Business Review “AI Won’t Replace Humans — But Humans With AI Will Replace Humans Without AI”. By mastering AI right now you are never going to be worried about being replaced by AI anymore.
+          </p>
         </div>
       </main>
 
-      {/* Continue Button - <Link> substituído por <button> com onClick */}
-      <footer className="flex justify-center p-4">
+      {/* Botão de Continuar */}
+      <footer className="flex justify-center py-8">
         <div className="w-full max-w-md">
           <button
             onClick={handleContinue}
-            className="w-full bg-green-400 hover:bg-green-500 text-black font-bold py-4 px-12 rounded-lg text-lg transition-colors"
+            className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-4 px-12 rounded-lg text-lg transition-colors"
           >
             CONTINUE
           </button>

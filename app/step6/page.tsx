@@ -1,76 +1,72 @@
-"use client" // Necessário para usar hooks
+"use client"
 
 import { ArrowLeft } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep6() {
+export default function CoursivQuizStep6() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para lidar com a seleção e passar TODOS os parâmetros adiante
-  const handleSelection = (financialSituation: string) => {
-    const params = new URLSearchParams(searchParams)
-    params.set("financial_situation", financialSituation) // Adiciona a resposta desta página
-    router.push(`/step7?${params.toString()}`) // Navega para a próxima com a URL completa
+  // Lista de opções para a pergunta sobre o conforto com IA
+  const comfortLevels = [
+    { emoji: "😳", text: "I don't know anything" },
+    { emoji: "😥", text: "I struggle a lot" },
+    { emoji: "😬", text: "I struggle sometimes" },
+    { emoji: "🤓", text: "I'm comfortable" },
+  ]
+
+  const handleSelection = (answer: string) => {
+    // Navega para o próximo passo, passando a resposta como parâmetro de URL
+    router.push(`/step7?comfort=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header with Progress */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4">
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
           <button onClick={() => router.back()} aria-label="Voltar">
-            <ArrowLeft className="w-6 h-6 text-white" />
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
           </button>
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-          <div className="text-white text-sm">4/18</div>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">4/20</div>
         </div>
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-400 h-1" style={{ width: "22.22%" }}></div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "20%" }} // 4 de 20 é 20%
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex items-center justify-center px-4 max-w-4xl mx-auto min-h-[80vh]">
-        {/* Question */}
-        <div className="w-full max-w-2xl">
-          <div className="mb-8 text-center">
-            <h1 className="text-white text-4xl font-bold mb-4 text-balance">
-              How do you feel about your
-              <br />
-              financial situation?
-            </h1>
-          </div>
+      {/* Conteúdo do Quiz */}
+      <main className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-black mb-10">
+            How comfortable are you with AI tools?
+          </h1>
 
-          {/* Financial Situation Options - <Link> substituído por onClick */}
+          {/* Opções de Resposta */}
           <div className="space-y-4">
-            <button
-              onClick={() => handleSelection("I'm comfortable")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😊</span>
-              <span className="text-lg">I'm comfortable</span>
-            </button>
-            <button
-              onClick={() => handleSelection("I would like to have more stability")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😐</span>
-              <span className="text-lg">I would like to have more stability</span>
-            </button>
-            <button
-              onClick={() => handleSelection("I'm struggling to meet my financial goals")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😟</span>
-              <span className="text-lg">I'm struggling to meet my financial goals</span>
-            </button>
+            {comfortLevels.map((level) => (
+              <button
+                key={level.text}
+                onClick={() => handleSelection(level.text)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors flex items-center text-left gap-4"
+              >
+                <span className="text-2xl">{level.emoji}</span>
+                <span>{level.text}</span>
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

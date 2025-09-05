@@ -1,81 +1,71 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep9() {
+export default function CoursivQuizStep9() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para lidar com a seleção e passar TODOS os parâmetros adiante
-  const handleSelection = (confidenceLevel: string) => {
-    const params = new URLSearchParams(searchParams)
-    params.set("financial_confidence", confidenceLevel) // Adiciona a resposta desta página
-    router.push(`/step10?${params.toString()}`) // Navega para a próxima com a URL completa
+  // Lista de opções para a pergunta atual
+  const options = [
+    { emoji: "😬", text: "Yes, all the time" },
+    { emoji: "🙂", text: "Yes, but I still want to learn" },
+    { emoji: "🤓", text: "No, it's not hard for me" },
+  ]
+
+  const handleSelection = (answer: string) => {
+    // Navega para o próximo passo, passando a resposta como parâmetro de URL
+    router.push(`/step10?hardToLearn=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header with Navigation */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4 max-w-6xl mx-auto">
-          <button
-            onClick={() => router.back()}
-            aria-label="Voltar"
-            className="text-white hover:text-green-400 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
           </button>
-
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-
-          <div className="text-gray-400 text-sm">6/18</div>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">6/20</div>
         </div>
-
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-400 h-1" style={{ width: "33.33%" }}></div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "30%" }} // 6 de 20 é 30%
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto min-h-[80vh]">
-        <div className="w-full max-w-2xl">
-          <h1 className="text-white text-3xl font-bold mb-12 text-center text-balance">
-            How confident are you about your financial future?
+      {/* Conteúdo do Quiz */}
+      <main className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-black mb-10">
+            Do you think that it's hard to learn AI?
           </h1>
 
-          {/* Answer Options - <Link> substituído por onClick */}
+          {/* Opções de Resposta */}
           <div className="space-y-4">
-            <button
-              onClick={() => handleSelection("Very confident")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😊</span>
-              <span className="text-lg">Very confident</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("Somewhat confident")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😐</span>
-              <span className="text-lg">Somewhat confident</span>
-            </button>
-
-            <button
-              onClick={() => handleSelection("Not confident at all")}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white p-6 rounded-lg text-left transition-colors flex items-center gap-4"
-            >
-              <span className="text-2xl">😟</span>
-              <span className="text-lg">Not confident at all</span>
-            </button>
+            {options.map((option) => (
+              <button
+                key={option.text}
+                onClick={() => handleSelection(option.text)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors flex items-center text-left gap-4"
+              >
+                <span className="text-2xl">{option.emoji}</span>
+                <span>{option.text}</span>
+              </button>
+            ))}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

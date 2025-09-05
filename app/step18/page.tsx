@@ -1,62 +1,71 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation" // Adicionado useSearchParams
+import { ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep18() {
+export default function CoursivQuizStep18() {
   const router = useRouter()
-  const searchParams = useSearchParams() // Adicionado para ler os parâmetros da URL
 
-  // A função agora repassa todos os parâmetros existentes para a próxima página
-  const handleContinue = () => {
-    router.push(`/step19?${searchParams.toString()}`)
+  // Lista de opções de resposta para a pergunta
+  const options = [
+    { emoji: "👍", text: "Yes" },
+    { emoji: "👎", text: "No" },
+    { emoji: "🤔", text: "Hm, not sure" },
+  ]
+
+  const handleSelection = (answer: string) => {
+    // Navega para o próximo passo, passando a resposta como parâmetro de URL
+    router.push(`/step19?comfortableLearning=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col p-4">
-      {/* Header */}
-      <header className="flex items-center justify-center py-4">
-        <div className="text-green-400 text-2xl sm:text-3xl font-bold">
-          <span className="text-green-400">F</span>inelo
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">14/20</div>
+        </div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "70%" }} // 14 de 20 é 70%
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 w-full max-w-6xl">
-          {/* Right Side - Trading Chart Visualization (Aparece primeiro no mobile) */}
-          <div className="flex-1 max-w-lg order-first lg:order-none">
-            <img
-              src="/trading-chart-dark.webp"
-              alt="Trading chart with buy and sell indicators"
-              className="w-full h-auto rounded-2xl"
-            />
-          </div>
+      {/* Conteúdo do Quiz */}
+      <main className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-black mb-10 text-balance">
+            Are you comfortable with learning new skills or techniques?
+          </h1>
 
-          {/* Left Side - Text Content (Centralizado no mobile) */}
-          <div className="flex-1 max-w-lg text-center lg:text-left">
-            <h1 className="text-3xl lg:text-4xl font-bold mb-6 text-balance">
-              Get the Right Tools to Trade with Confidence!
-            </h1>
-            <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
-              Why start trading unprepared? We provide everything you need—expert tips, AI coaching, personalized
-              learning, and risk-free simulations. No more guessing—just clear, step-by-step guidance to level up your
-              trading journey.
-            </p>
+          {/* Opções de Resposta */}
+          <div className="space-y-4">
+            {options.map((option) => (
+              <button
+                key={option.text}
+                onClick={() => handleSelection(option.text)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors flex items-center text-left gap-4"
+              >
+                <span className="text-2xl">{option.emoji}</span>
+                <span>{option.text}</span>
+              </button>
+            ))}
           </div>
         </div>
       </main>
-
-      {/* Continue Button */}
-      <footer className="flex justify-center py-4">
-        <div className="w-full max-w-md">
-          <button
-            onClick={handleContinue}
-            className="w-full bg-green-400 hover:bg-green-500 text-black font-bold py-4 px-8 rounded-lg text-lg transition-colors"
-          >
-            CONTINUE
-          </button>
-        </div>
-      </footer>
     </div>
   )
 }

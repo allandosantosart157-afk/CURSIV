@@ -5,56 +5,57 @@ import { Menu } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
-export default function FineloQuiz() {
+export default function CoursivQuiz() {
   return (
-    <div className="min-h-screen bg-black text-white p-4">
+    <div className="min-h-screen bg-white text-gray-800 p-4">
       {/* Header */}
-      <header className="flex items-center justify-between bg-black">
-        <div className="w-6"></div>
-        {/* Texto menor no mobile (text-2xl), maior em telas sm+ (sm:text-3xl) */}
-        <div className="text-green-400 text-2xl sm:text-3xl font-bold">
-          <span className="text-green-400">F</span>
-          inelo
-        </div>
-        <Menu className="w-6 h-6 text-white" />
+      <header className="flex items-center justify-between">
+        {/* Espaçador para centralizar a logo */}
+        <div className="w-6 h-6" />
+        <Image
+          src="/CURSIV/CURSIV-HOME/logo.svg"
+          alt="Coursiv Logo"
+          width={120}
+          height={40}
+        />
+        <Menu className="w-6 h-6 text-gray-600" />
       </header>
 
       {/* Badges */}
       <div className="flex flex-row gap-4 justify-center items-stretch mt-8 mb-8">
         {/* Badge 1 com Ícone */}
-        {/* Padding e gap menores no mobile, maiores em sm+ */}
-        <div className="flex-1 bg-[#1A2E26] border border-[#2A4A3A] rounded-lg p-2 sm:p-3 flex items-center justify-center gap-2 sm:gap-3">
+        <div className="flex-1 border border-gray-200 rounded-lg p-2 sm:p-3 flex items-center justify-center gap-2 sm:gap-3">
           <Image
-            src="/icon-choice.webp"
+            src="/CURSIV/CURSIV-HOME/Users-choice.webp"
             alt="Users' Choice Icon"
             width={32}
             height={32}
-            className="w-6 h-6 sm:w-8 sm:h-8" // Ícone menor no mobile
+            className="w-6 h-6 sm:w-8 sm:h-8"
           />
           <div className="text-left">
-            <p className="text-xs text-white font-bold leading-tight">
-              1M+ USERS' CHOICE
+            <p className="text-xs text-gray-500 font-bold leading-tight">
+              700K+ USERS’ CHOICE
             </p>
-            <p className="text-[10px] sm:text-xs text-gray-400 leading-tight">
+            <p className="text-sm text-gray-800 font-semibold leading-tight">
               Learned new skills
             </p>
           </div>
         </div>
         {/* Badge 2 com Ícone */}
-        <div className="flex-1 bg-[#1A2E26] border border-[#2A4A3A] rounded-lg p-2 sm:p-3 flex items-center justify-center gap-2 sm:gap-3">
+        <div className="flex-1 border border-gray-200 rounded-lg p-2 sm:p-3 flex items-center justify-center gap-2 sm:gap-3">
           <Image
-            src="/icon-star.webp"
+            src="/CURSIV/CURSIV-HOME/Frame-rated-on-trustpilot.webp"
             alt="Trustpilot Star Icon"
             width={32}
             height={32}
-            className="w-6 h-6 sm:w-8 sm:h-8" // Ícone menor no mobile
+            className="w-6 h-6 sm:w-8 sm:h-8"
           />
           <div className="text-left">
-            <p className="text-xs text-white font-bold leading-tight">
+            <p className="text-xs text-gray-500 font-bold leading-tight">
               RATED ON TRUSTPILOT
             </p>
-            <p className="text-[10px] sm:text-xs text-gray-400 leading-tight">
-              4.6 Satisfaction Score
+            <p className="text-sm text-gray-800 font-semibold leading-tight">
+              4.5 Satisfaction Score
             </p>
           </div>
         </div>
@@ -62,39 +63,34 @@ export default function FineloQuiz() {
 
       {/* Main Content */}
       <div className="flex flex-col items-center max-w-4xl mx-auto">
-        {/* Trading Chart Section */}
+        {/* Image Section */}
         <div className="relative mb-8 w-full max-w-2xl">
           <img
-            src="/founder-finelo-chart.webp"
-            alt="Founder of Finelo with trading chart showing 130.81 value and performance metrics"
+            src="/CURSIV/CURSIV-HOME/ed-challenge-1.webp"
+            alt="Man smiling in front of a 28-day challenge calendar"
             className="w-full h-auto"
           />
         </div>
 
         {/* Challenge Title */}
         <div className="text-center mb-8">
-          {/* Título menor no mobile (text-3xl), e vai aumentando em telas maiores */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-normal leading-tight">
-            28-DAY TRADING
-            <br />
-            CHALLENGE
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4 tracking-normal leading-tight">
+            28-DAY AI CHALLENGE
           </h1>
-          {/* Subtítulo menor no mobile (text-sm), maior em sm+ */}
-          <p className="text-gray-400 text-sm sm:text-base font-semibold tracking-wider">
-            HAVE YOU EVER TRADED BEFORE?
+          <p className="text-gray-500 text-sm sm:text-base font-semibold tracking-wider">
+            HAVE YOU EVER USED AI?
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-row gap-4 mb-8 w-full max-w-md">
+        <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full max-w-md">
           <Link href="/step2" className="flex-1">
-            {/* Texto do botão menor no mobile (text-base), maior em sm+ */}
-            <Button className="w-full bg-[#9EFF00] hover:bg-[#8ee000] text-black font-bold py-5 px-6 rounded-lg text-base sm:text-lg">
+            <Button className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-5 px-6 rounded-lg text-base sm:text-lg">
               YES ›
             </Button>
           </Link>
           <Link href="/step2" className="flex-1">
-            <Button className="w-full bg-[#9EFF00] hover:bg-[#8ee000] text-black font-bold py-5 px-6 rounded-lg text-base sm:text-lg">
+            <Button className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-5 px-6 rounded-lg text-base sm:text-lg">
               NO ›
             </Button>
           </Link>
@@ -116,7 +112,7 @@ export default function FineloQuiz() {
               Subscription Terms
             </Link>
           </p>
-          <p>FINELO LIMITED, Limassol, Cyprus</p>
+          <p>Coursiv Limited, Limassol, Cyprus</p>
         </div>
       </div>
     </div>

@@ -1,64 +1,84 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 
-export default function FineloQuizStep10() {
+export default function CoursivQuizStep10() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  // Função para navegar para a próxima página, mantendo todos os parâmetros existentes
-  const handleContinue = () => {
-    router.push(`/step11?${searchParams.toString()}`)
+  const options = [
+    "Yes, of course",
+    "Not really",
+    "I never thought about it",
+  ]
+
+  const handleSelection = (answer: string) => {
+    router.push(`/step11?needsProgramming=${encodeURIComponent(answer)}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header - Simple logo only */}
-      <header className="bg-black">
-        <div className="flex items-center justify-center p-4">
-          <div className="text-green-400 text-2xl sm:text-3xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
+    // Fundo da página e do header alterados para branco
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">7/20</div>
+        </div>
+        {/* Barra de Progresso */}
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "35%" }}
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center p-4">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 w-full max-w-6xl">
-          {/* Right Side - Mountain Image (Aparece primeiro no mobile) */}
-          <div className="flex-1 max-w-md order-first lg:order-none">
-            <img
-              src="/ed-guide-mountains.webp"
-              alt="Person pointing at snowy mountain landscape"
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
-
-          {/* Left Side - Text Content (Centralizado no mobile) */}
-          <div className="flex-1 max-w-lg text-center lg:text-left">
-            <h1 className="text-white text-3xl lg:text-4xl font-bold mb-6 text-balance">
-              We are glad to hear this!
+      {/* Container principal */}
+      <div className="relative">
+        {/* Conteúdo do Quiz */}
+        <main className="flex flex-col items-center justify-center py-12 px-4">
+          <div className="w-full max-w-md text-center">
+            <h1 className="text-3xl font-bold text-black mb-10 text-balance">
+              Do you think you need to know programming to learn AI?
             </h1>
-            <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
-              According to the survey by Capital One, only 23% of people feel confident about their future. However,
-              many people tend to stay on the same financial level for decades, because they lack knowledge how to go
-              further. We will come up with several paths to a better financial future based on your answers.
-            </p>
-          </div>
-        </div>
-      </main>
 
-      {/* Continue Button - <Link> substituído por <button> com onClick */}
-      <footer className="flex justify-center p-4">
-        <div className="w-full max-w-md">
-          <button
-            onClick={handleContinue}
-            className="w-full bg-green-400 hover:bg-green-500 text-black font-bold py-4 px-12 rounded-lg text-lg transition-colors"
-          >
-            CONTINUE
-          </button>
+            {/* Opções de Resposta */}
+            <div className="space-y-4">
+              {options.map((optionText) => (
+                <button
+                  key={optionText}
+                  onClick={() => handleSelection(optionText)}
+                  // Botões agora em cinza-claro para contrastar com o fundo branco
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors"
+                >
+                  {optionText}
+                </button>
+              ))}
+            </div>
+          </div>
+        </main>
+
+        {/* Imagem Decorativa */}
+        <div className="hidden lg:block absolute bottom-0 right-0 pointer-events-none -z-10">
+          <Image
+            src="/CURSIV/CURSIV-STEP8/1-15.webp"
+            alt="Man with a cap and laptop smiling"
+            width={400}
+            height={550}
+            className="object-contain"
+          />
         </div>
-      </footer>
+      </div>
     </div>
   )
 }
