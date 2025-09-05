@@ -1,78 +1,89 @@
-"use client" // O arquivo inteiro já é um Componente Cliente
+// /app/step24/page.js
 
+"use client"
+
+// 1. Importe o useSearchParams
+import { useRouter, useSearchParams } from "next/navigation" 
+import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
-import { useRouter, useSearchParams } from 'next/navigation' // Hooks de navegação e URL
 
-export default function FineloQuizStep24() {
+export default function CoursivQuizStep24() {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  // 2. Inicialize o hook para ler os parâmetros da URL
+  const searchParams = useSearchParams() 
 
-  // Lê o 'goal' diretamente na página. Não precisa de Suspense.
-  const userGoal = searchParams.get('goal') || 'Your Goal'
+  const timeOptions = [
+    "5 min/day",
+    "10 min/day",
+    "15 min/day",
+    "20 min/day",
+  ]
 
-  // Função para navegar para a próxima página, mantendo todos os parâmetros existentes
-  const handleContinue = () => {
-    router.push(`/step25?${searchParams.toString()}`)
+  const handleSelection = (answer: string) => {
+    // 3. Crie uma nova instância para poder modificar os parâmetros
+    const params = new URLSearchParams(searchParams)
+    // Adicione a resposta desta página
+    params.set('timeSpent', answer)
+    
+    // 4. Redirecione para a próxima página, passando TODOS os parâmetros
+    router.push(`/step25?${params.toString()}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col p-4">
-      {/* Header */}
-      <header className="flex items-center justify-center py-4">
-        <div className="text-green-400 text-2xl sm:text-3xl font-bold">
-          <span className="text-green-400">F</span>inelo
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">20/20</div>
+        </div>
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "100%" }}
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-center">
-        <div className="w-full max-w-lg mx-auto text-center">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-balance">
-            Your Personal 28-Day Trading Challenge
-          </h1>
-
-          <p className="text-gray-300 mb-2">
-            Based on your answers, we expect you to
-          </p>
-          <p className="text-gray-300 mb-8">
-            gain necessary trading skills of
-          </p>
-
-          <h2 className="text-white text-2xl font-bold mb-12">
-            <span className="underline">Confident Trader</span> by Nov, 2025
-          </h2>
-
-          {/* Goal Section - Simplificada */}
-          <div className="mb-8">
-            <div className="bg-gray-800 px-4 py-2 rounded-lg inline-block">
-              <span className="text-white text-sm">Your goal: </span>
-              <span className="text-white font-semibold">{userGoal}</span>
+      {/* Container principal para conteúdo e imagem */}
+      <div className="relative">
+        <main className="flex flex-col items-center justify-center py-12 px-4">
+          <div className="w-full max-w-md text-center">
+            <h1 className="text-3xl font-bold text-black mb-10 text-balance">
+              How much time are you ready to spend to achieve your goal?
+            </h1>
+            <div className="space-y-4">
+              {timeOptions.map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleSelection(option)}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors"
+                >
+                  {option}
+                </button>
+              ))}
             </div>
           </div>
+        </main>
 
-          <div className="w-full max-w-md my-12 mx-auto">
-            <Image
-              src="/chart.png"
-              alt="Chart showing progress from Beginner to Confident Trader"
-              width={500}
-              height={250}
-              className="w-full h-auto"
-            />
-          </div>
+        <div className="hidden lg:block absolute top-0 right-0 pointer-events-none -z-10 h-full">
+          <Image
+            src="/CURSIV/CURSIV-STEP20/man-flexing.webp"
+            alt="Man smiling and flexing his arm"
+            width={450}
+            height={600}
+            className="object-contain object-right-top h-full"
+          />
         </div>
-      </main>
-
-      {/* Continue Button - <Link> substituído por <button> com onClick */}
-      <footer className="flex justify-center py-4">
-        <div className="w-full max-w-md">
-          <button
-            onClick={handleContinue}
-            className="w-full bg-green-400 hover:bg-green-500 text-black font-bold py-4 px-8 rounded-lg text-lg transition-colors"
-          >
-            CONTINUE
-          </button>
-        </div>
-      </footer>
+      </div>
     </div>
   )
 }

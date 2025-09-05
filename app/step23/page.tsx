@@ -1,84 +1,83 @@
-"use client" // Necessário para usar hooks
+"use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+// 1. Importe 'useSearchParams' junto com 'useRouter'
+import { useRouter, useSearchParams } from "next/navigation" 
+import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
 
-export default function FineloQuizStep23() {
+export default function CoursivQuizStep23() {
   const router = useRouter()
-  const searchParams = useSearchParams()
+  // 2. Inicialize o hook para poder ler os parâmetros da URL
+  const searchParams = useSearchParams() 
 
-  // Função para lidar com a seleção e passar TODOS os parâmetros adiante
-  const handleSelection = (timeSpent: string) => {
+  const achievements = [
+    { emoji: "🏡", text: "Buy a house" },
+    { emoji: "✈️", text: "Vacation" },
+    { emoji: "🚗", text: "Buy a car" },
+    { emoji: "🥂", text: "Worry-free retirement" },
+    { emoji: "👩‍🏫", text: "Children's education" },
+    { emoji: "💍", text: "A perfect wedding" },
+    { emoji: "👀", text: "Other" },
+  ]
+
+  const handleSelection = (answer: string) => {
+    // 3. Crie uma nova instância de URLSearchParams para poder modificá-la
     const params = new URLSearchParams(searchParams)
-    params.set("time_spent_goal", timeSpent) // Adiciona a resposta desta página
-    router.push(`/step24?${params.toString()}`) // Navega para a próxima com a URL completa
+    // Adicione a resposta desta página aos parâmetros
+    params.set('specialGoal', answer)
+    
+    // Agora o redirecionamento funcionará corretamente
+    router.push(`/step24?${params.toString()}`)
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="bg-black">
-        <div className="flex items-center justify-between p-4">
-          <button
-            onClick={() => router.back()}
-            aria-label="Voltar"
-            className="text-white hover:text-green-400 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+    <div className="min-h-screen bg-white text-gray-800 font-sans">
+      {/* Header com Progresso */}
+      <header className="sticky top-0 bg-white z-10">
+        <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <button onClick={() => router.back()} aria-label="Voltar">
+            <ArrowLeft className="w-6 h-6 text-gray-700" />
           </button>
-          <div className="text-green-400 text-xl font-bold">
-            <span className="text-green-400">F</span>inelo
-          </div>
-          <div className="text-white text-sm">18/18</div>
+          <Image
+            src="/CURSIV/CURSIV-STEP2/logo.svg"
+            alt="Coursiv Logo"
+            width={100}
+            height={30}
+          />
+          <div className="text-gray-600 font-semibold text-sm">19/20</div>
         </div>
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-800 h-1">
-          <div className="bg-green-500 h-1" style={{ width: "100%" }}></div>
+        <div className="w-full bg-gray-200 h-1">
+          <div
+            className="bg-[#4F46E5] h-1"
+            style={{ width: "95%" }}
+          ></div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="flex flex-col items-center px-4 max-w-4xl mx-auto py-12">
-        <h1 className="text-white text-3xl font-bold text-center mb-12 text-balance">
-          How much time are you ready to spend to achieve your goal?
-        </h1>
+      {/* Conteúdo do Quiz */}
+      <main className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-3xl font-bold text-black mb-2 text-balance">
+            Is there something special you wish to achieve?
+          </h1>
+          <p className="text-gray-500 mb-8">
+            You're more likely to reach your goal if you have something important to aim for
+          </p>
 
-        {/* Options - <Link> substituído por onClick */}
-        <div className="w-full max-w-2xl space-y-4 mb-12">
-          <button
-            onClick={() => handleSelection("5 min/day")}
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg transition-colors flex items-center gap-4"
-          >
-            <span className="text-2xl">👍</span>
-            <span className="text-lg">5 min/day</span>
-          </button>
-
-          <button
-            onClick={() => handleSelection("10 min/day")}
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg transition-colors flex items-center gap-4"
-          >
-            <span className="text-2xl">👌</span>
-            <span className="text-lg">10 min/day</span>
-          </button>
-
-          <button
-            onClick={() => handleSelection("15 min/day")}
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg transition-colors flex items-center gap-4"
-          >
-            <span className="text-2xl">🤟</span>
-            <span className="text-lg">15 min/day</span>
-          </button>
-
-          <button
-            onClick={() => handleSelection("20 min/day")}
-            className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg transition-colors flex items-center gap-4"
-          >
-            <span className="text-2xl">💪</span>
-            <span className="text-lg">20 min/day</span>
-          </button>
+          <div className="space-y-4">
+            {achievements.map((item) => (
+              <button
+                key={item.text}
+                onClick={() => handleSelection(item.text)}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-black font-medium py-4 px-6 rounded-lg text-lg transition-colors flex items-center text-left gap-4"
+              >
+                <span className="text-2xl">{item.emoji}</span>
+                <span>{item.text}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }
